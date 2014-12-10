@@ -331,7 +331,7 @@
   (if (find-my)
       (tsukamur (send *ik-target* :pos) )
     (format t "not found item~%"))
-  (kamae-pre)
+  (reset-my)
   (ros::spin-once)
   (if (find-my2)
       (tsukamul (send *ik-target* :pos))
