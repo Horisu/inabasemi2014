@@ -156,6 +156,39 @@
       nil)))
 
 
+(defun find-my2 ()
+  (let (volume index count volume-tmp)
+    (if *boxg2*
+	(progn
+	  (setq volume 0)
+	  (setq index 0)
+	  (setq count 0)
+	  (format t "if 2")
+	  (dolist (box (send *boxg2* :boxes))
+	    (progn
+	      (if (> (setq volume-tmp (* (send box :dimensions :x) (send box :dimensions :y) (send box :dimensions :z))) volume)
+		  (progn
+		    (setq volume volume-tmp)
+		    (setq index count))
+		(setq index (+ count 1)))))
+
+	  (setq *torso-co* (send (car (send *hrp2w* :torso)) :copy-worldcoords))
+	  (if (send *tfl* :wait-for-transform "CHEST_LINK0"
+		    (format nil "/camera_remote/depth_registered/cluster_decomposer2output~0,2d" index)
+		    (ros::time 0) 3)
+	      (progn
+		(setq *target-co* (send *tfl* :lookup-transform "CHEST_LINK0"
+					(format nil "/camera_remote/depth_registered/cluster_decomposer2output~0,2d" index)
+					(ros::time 0)))
+
+
+		(setq *ik-target* (send *torso-co* :transform *target-co*))
+		(objects (list *hrp2w* *ik-target*))
+		'done)
+	    nil))
+      nil)))
+
+
 
 
 
