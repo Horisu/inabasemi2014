@@ -29,7 +29,7 @@
 (defun kamae-pre ()
   (let (rthumb lthumb)
     (setq rthumb (send *hrp2w* :rarm :thumb-r :joint-angle))
-    (setq lthumb (send *hrp2w* :larm :thumb-r :joint-angle))
+    (setq lthumb (send *hrp2w* :larm :thumb-l :joint-angle))
     (send *hrp2w* :reset-pose)
     (send *hrp2w* :rarm :thumb-r :joint-angle rthumb)
     (send *hrp2w* :larm :thumb-l :joint-angle lthumb)
@@ -201,7 +201,7 @@
   ;;(setq *rarm-end* (send *hrp2w* :rarm :end-coords :copy-worldcoords))
   (setq *rarm-end* (make-cascoords))
   (send *rarm-end* :locate pet :world)
-  (send *rarm-end* :translate #f(-150 -30 50) :world)
+  (send *rarm-end* :translate #f(-150 -30 20) :world)
 
   (send *hrp2w* :rarm :inverse-kinematics *rarm-end* :rotation-axis :z
 	:debug-view t :torso t :link-list (send *hrp2w* :link-list (send
@@ -217,11 +217,14 @@
 
   (hrp2w-stop-grasp :rarm)
   ;;
-
+    (send *hrp2w* :rarm :thumb-r :joint-angle 60)
+    (send *irtviewer* :draw-objects)
+    (send *ri* :angle-vector (send *hrp2w* :angle-vector) 5000)
+    (send *ri* :wait-interpolation)
   ;;(send *hrp2w* :rarm :wrist-y :joint-angle (- (send *hrp2w* :rarm :wrist-y :joint-angle) 10))
   ;;(send *ri* :angle-vector (send *hrp2w* :angle-vector) 1000)
 
-  (send *rarm-end* :translate #f(80 0 0) :world)
+  (send *rarm-end* :translate #f(120 0 0) :world)
 
   (send *hrp2w* :rarm :inverse-kinematics *rarm-end* :rotation-axis :z
 	:debug-view t :torso t :link-list (send *hrp2w* :link-list (send
@@ -231,7 +234,7 @@
   (send *ri* :angle-vector (send *hrp2w* :angle-vector) 5000)
   (send *ri* :wait-interpolation)
 
-  (hrp2w-start-grasp :rarm :angle 10)
+  (hrp2w-start-grasp :rarm :angle 30)
   ;;
   (setq *init-coords-rarm* (send *hrp2w* :rarm :end-coords :copy-worldcoords))
   )
@@ -243,7 +246,7 @@
   (setq *larm-end* (send *hrp2w* :larm :end-coords :copy-worldcoords))
 
   (send *larm-end* :locate cup :world)
-  (send *larm-end* :translate #f(-150 30 50) :world)
+  (send *larm-end* :translate #f(-150 30 40) :world)
 
   (send *hrp2w* :larm :inverse-kinematics *larm-end* :rotation-axis :z
 	:debug-view t :torso t :link-list (send *hrp2w* :link-list (send
@@ -259,7 +262,10 @@
 
   (hrp2w-stop-grasp :larm)
   ;;
-
+    (send *hrp2w* :larm :thumb-l :joint-angle -60)
+    (send *irtviewer* :draw-objects)
+    (send *ri* :angle-vector (send *hrp2w* :angle-vector) 5000)
+    (send *ri* :wait-interpolation)
   ;;(send *hrp2w* :larm :wrist-y :joint-angle (+ (send *hrp2w* :larm :wrist-y :joint-angle) 10))
   ;;(send *ri* :angle-vector (send *hrp2w* :angle-vector))
 
@@ -273,7 +279,7 @@
   (send *ri* :angle-vector (send *hrp2w* :angle-vector) 5000)
   (send *ri* :wait-interpolation)
 
-  (hrp2w-start-grasp :larm :angle -10)
+  (hrp2w-start-grasp :larm :angle -40)
   ;;
   (setq *init-coords-larm* (send *hrp2w* :larm :end-coords :copy-worldcoords))
   )
@@ -337,10 +343,10 @@
 (print "reset-my,fimd-my,tsukamul,kamae-pre,find-my2,tsukamur,kamae,tsugu")
 (print "tsugu_tmp")
 
-(do-until-key
- (ros::spin-once))
 
+(ros::spin-once)
 
+(defun last ()
 (do-until-key
  (print "larm stop")
  (unix::sleep 2))
@@ -350,4 +356,4 @@
  (print "rarm stop")
  (unix::sleep 2))
 
-(hrp2w-stop-grasp :rarm)
+(hrp2w-stop-grasp :rarm))

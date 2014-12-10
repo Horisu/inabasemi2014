@@ -13,14 +13,14 @@
   <arg name="DEFAULT_NAMESPACE" default="/camera_remote/depth_registered"/>
 
   <arg name="h_max" default="127" />
-  <arg name="h_min" default="123" />
+  <arg name="h_min" default="121" />
   <arg name="s_max" default="212" />
   <arg name="s_min" default="46" />
   <arg name="i_max" default="203" />
   <arg name="i_min" default="49" />
 
-  <arg name="create_manager" default="true" />
-  <arg name="manager" default="hsi_filter_manager2" />
+  <arg name="create_manager" default="false" />
+  <arg name="manager" default="hsi_filter_manager" />
 
   <group ns="$(arg DEFAULT_NAMESPACE)">
     <node if="$(arg create_manager)"
@@ -55,7 +55,7 @@
           args="load jsk_pcl/ClusterPointIndicesDecomposerZAxis $(arg manager)"
           output="screen" clear_params="true">
       <remap from="~input" to="$(arg OUTPUT)" />
-      <remap from="~target" to="euclidean_clustering/output" />
+      <remap from="~target" to="euclidean_clustering2/output" />
       <rosparam>
       </rosparam>
     </node>
