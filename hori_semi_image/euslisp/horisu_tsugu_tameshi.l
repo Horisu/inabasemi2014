@@ -125,6 +125,7 @@
 
 (defun find-my ()
   (let (volume index count volume-tmp)
+    (ros::spin-once)
     (if *boxg*
 	(progn
 	  (setq volume 0)
@@ -158,6 +159,7 @@
 
 (defun find-my2 ()
   (let (volume index count volume-tmp)
+    (ros::spin-once)
     (if *boxg2*
 	(progn
 	  (setq volume 0)
@@ -224,7 +226,7 @@
   ;;(send *hrp2w* :rarm :wrist-y :joint-angle (- (send *hrp2w* :rarm :wrist-y :joint-angle) 10))
   ;;(send *ri* :angle-vector (send *hrp2w* :angle-vector) 1000)
 
-  (send *rarm-end* :translate #f(120 0 0) :world)
+  (send *rarm-end* :translate #f(150 0 0) :world)
 
   (send *hrp2w* :rarm :inverse-kinematics *rarm-end* :rotation-axis :z
 	:debug-view t :torso t :link-list (send *hrp2w* :link-list (send
@@ -246,7 +248,7 @@
   (setq *larm-end* (send *hrp2w* :larm :end-coords :copy-worldcoords))
 
   (send *larm-end* :locate cup :world)
-  (send *larm-end* :translate #f(-150 30 40) :world)
+  (send *larm-end* :translate #f(-150 10 20) :world)
 
   (send *hrp2w* :larm :inverse-kinematics *larm-end* :rotation-axis :z
 	:debug-view t :torso t :link-list (send *hrp2w* :link-list (send
@@ -262,7 +264,7 @@
 
   (hrp2w-stop-grasp :larm)
   ;;
-    (send *hrp2w* :larm :thumb-l :joint-angle -60)
+    (send *hrp2w* :larm :thumb-l :joint-angle -70)
     (send *irtviewer* :draw-objects)
     (send *ri* :angle-vector (send *hrp2w* :angle-vector) 5000)
     (send *ri* :wait-interpolation)
@@ -325,16 +327,12 @@
 
 (defun tsugu_tmp ()
   (reset-my)
-  (ros::spin-once)
-  (unix::sleep 1)
-  (ros::spin-once)
   (if (find-my)
-      (tsukamur (send *ik-target* :pos) )
+      (tsukamul (send *ik-target* :pos) )
     (format t "not found item~%"))
   (reset-my)
-  (ros::spin-once)
   (if (find-my2)
-      (tsukamul (send *ik-target* :pos))
+      (tsukamur (send *ik-target* :pos))
     (format t "not found item~%"))
   (kamae)
   (tsugu))
