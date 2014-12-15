@@ -206,8 +206,8 @@
   (send *rarm-end* :translate #f(-150 -30 20) :world)
 
   (send *hrp2w* :rarm :inverse-kinematics *rarm-end* :rotation-axis :z
-	:debug-view t :torso t :link-list (send *hrp2w* :link-list (send
-								    *hrp2w* :rarm :end-coords :parent) (car (send *hrp2w* :torso :links))))
+	:debug-view t :torso t :link-list (cdr (cdr (send *hrp2w* :link-list (send
+								    *hrp2w* :rarm :end-coords :parent) (car (send *hrp2w* :torso :links))))))
 
 
 
@@ -229,8 +229,8 @@
   (send *rarm-end* :translate #f(150 0 0) :world)
 
   (send *hrp2w* :rarm :inverse-kinematics *rarm-end* :rotation-axis :z
-	:debug-view t :torso t :link-list (send *hrp2w* :link-list (send
-								    *hrp2w* :rarm :end-coords :parent) (car (send *hrp2w* :torso :links))))
+	:debug-view t :torso t :link-list (cdr (cdr (send *hrp2w* :link-list (send
+								    *hrp2w* :rarm :end-coords :parent) (car (send *hrp2w* :torso :links))))))
 
   (send *irtviewer* :draw-objects)
   (send *ri* :angle-vector (send *hrp2w* :angle-vector) 5000)
@@ -251,8 +251,8 @@
   (send *larm-end* :translate #f(-150 10 20) :world)
 
   (send *hrp2w* :larm :inverse-kinematics *larm-end* :rotation-axis :z
-	:debug-view t :torso t :link-list (send *hrp2w* :link-list (send
-								    *hrp2w* :larm :end-coords :parent) (car (send *hrp2w* :torso :links))))
+	:debug-view t :torso t :link-list (cdr (cdr (send *hrp2w* :link-list (send
+								    *hrp2w* :larm :end-coords :parent) (car (send *hrp2w* :torso :links))))))
 
 
 
@@ -274,8 +274,8 @@
   (send *larm-end* :translate #f(120 0 0) :world)
 
   (send *hrp2w* :larm :inverse-kinematics *larm-end* :rotation-axis :z
-	:debug-view t :torso t :link-list (send *hrp2w* :link-list (send
-								    *hrp2w* :larm :end-coords :parent) (car (send *hrp2w* :torso :links))))
+	:debug-view t :torso t :link-list (cdr (cdr (send *hrp2w* :link-list (send
+								    *hrp2w* :larm :end-coords :parent) (car (send *hrp2w* :torso :links))))))
 
   (send *irtviewer* :draw-objects)
   (send *ri* :angle-vector (send *hrp2w* :angle-vector) 5000)
@@ -327,10 +327,12 @@
 
 (defun tsugu_tmp ()
   (reset-my)
+  (unix::sleep 5)
   (if (find-my)
       (tsukamul (send *ik-target* :pos) )
     (format t "not found item~%"))
   (reset-my)
+  (unix::sleep 5)
   (if (find-my2)
       (tsukamur (send *ik-target* :pos))
     (format t "not found item~%"))
