@@ -206,8 +206,8 @@
   (send *rarm-end* :translate #f(-150 -30 20) :world)
 
   (send *hrp2w* :rarm :inverse-kinematics *rarm-end* :rotation-axis :z
-	:debug-view t :torso t :link-list (cdr (cdr (send *hrp2w* :link-list (send
-								    *hrp2w* :rarm :end-coords :parent) (car (send *hrp2w* :torso :links))))))
+	:debug-view t :torso t :link-list (send *hrp2w* :link-list (send
+								    *hrp2w* :rarm :end-coords :parent) (car (send *hrp2w* :torso :links))))
 
 
 
@@ -229,14 +229,14 @@
   (send *rarm-end* :translate #f(150 0 0) :world)
 
   (send *hrp2w* :rarm :inverse-kinematics *rarm-end* :rotation-axis :z
-	:debug-view t :torso t :link-list (cdr (cdr (send *hrp2w* :link-list (send
-								    *hrp2w* :rarm :end-coords :parent) (car (send *hrp2w* :torso :links))))))
+	:debug-view t :torso t :link-list (send *hrp2w* :link-list (send
+								    *hrp2w* :rarm :end-coords :parent) (car (send *hrp2w* :torso :links))))
 
   (send *irtviewer* :draw-objects)
   (send *ri* :angle-vector (send *hrp2w* :angle-vector) 5000)
   (send *ri* :wait-interpolation)
 
-  (hrp2w-start-grasp :rarm :angle 30)
+  (hrp2w-start-grasp :rarm :angle 20)
   ;;
   (setq *init-coords-rarm* (send *hrp2w* :rarm :end-coords :copy-worldcoords))
   )
@@ -248,11 +248,11 @@
   (setq *larm-end* (send *hrp2w* :larm :end-coords :copy-worldcoords))
 
   (send *larm-end* :locate cup :world)
-  (send *larm-end* :translate #f(-150 10 20) :world)
+  (send *larm-end* :translate #f(-120 0.0 20) :world)
 
   (send *hrp2w* :larm :inverse-kinematics *larm-end* :rotation-axis :z
-	:debug-view t :torso t :link-list (cdr (cdr (send *hrp2w* :link-list (send
-								    *hrp2w* :larm :end-coords :parent) (car (send *hrp2w* :torso :links))))))
+	:debug-view t :torso t :link-list (send *hrp2w* :link-list (send
+									      *hrp2w* :larm :end-coords :parent) (car (send *hrp2w* :torso :links))))
 
 
 
@@ -264,24 +264,24 @@
 
   (hrp2w-stop-grasp :larm)
   ;;
-    (send *hrp2w* :larm :thumb-l :joint-angle -70)
-    (send *irtviewer* :draw-objects)
-    (send *ri* :angle-vector (send *hrp2w* :angle-vector) 5000)
-    (send *ri* :wait-interpolation)
+  (send *hrp2w* :larm :thumb-l :joint-angle -70)
+  (send *irtviewer* :draw-objects)
+  (send *ri* :angle-vector (send *hrp2w* :angle-vector) 5000)
+  (send *ri* :wait-interpolation)
   ;;(send *hrp2w* :larm :wrist-y :joint-angle (+ (send *hrp2w* :larm :wrist-y :joint-angle) 10))
   ;;(send *ri* :angle-vector (send *hrp2w* :angle-vector))
 
   (send *larm-end* :translate #f(150 0 0) :world)
 
   (send *hrp2w* :larm :inverse-kinematics *larm-end* :rotation-axis :z
-	:debug-view t :torso t :link-list (cdr (cdr (send *hrp2w* :link-list (send
-								    *hrp2w* :larm :end-coords :parent) (car (send *hrp2w* :torso :links))))))
+	:debug-view t :torso t :link-list (send *hrp2w* :link-list (send
+								    *hrp2w* :larm :end-coords :parent) (car (send *hrp2w* :torso :links))))
 
   (send *irtviewer* :draw-objects)
   (send *ri* :angle-vector (send *hrp2w* :angle-vector) 5000)
   (send *ri* :wait-interpolation)
 
-  (hrp2w-start-grasp :larm :angle -40)
+  (hrp2w-start-grasp :larm :angle -30)
   ;;
   (setq *init-coords-larm* (send *hrp2w* :larm :end-coords :copy-worldcoords))
   )
