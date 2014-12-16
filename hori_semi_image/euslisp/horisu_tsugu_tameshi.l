@@ -271,7 +271,7 @@
   ;;(send *hrp2w* :larm :wrist-y :joint-angle (+ (send *hrp2w* :larm :wrist-y :joint-angle) 10))
   ;;(send *ri* :angle-vector (send *hrp2w* :angle-vector))
 
-  (send *larm-end* :translate #f(120 0 0) :world)
+  (send *larm-end* :translate #f(150 0 0) :world)
 
   (send *hrp2w* :larm :inverse-kinematics *larm-end* :rotation-axis :z
 	:debug-view t :torso t :link-list (cdr (cdr (send *hrp2w* :link-list (send
